@@ -41,9 +41,7 @@ public class Main {
                      
        } 
         
-		System.out.println(Arrays.toString(arrT));
-		
-		System.out.println(Arrays.toString(burT));
+
         //
         double burstAdd= arrT[0]+burT[0];
         
@@ -66,7 +64,6 @@ public class Main {
         	
         	waitT[i]=burstAdd-arrT[i];
         	waitTSum=burstAdd-arrT[i];
-        	System.out.println("2i"+waitT[i]);	
         	}
         	
         	else 
@@ -176,9 +173,9 @@ public class Main {
 				
 			}
 			
-			System.out.println(" [A] First Come First Serve (FCFS) \n [B] Non-Preemptive Scheduling \n [C] Disk Scheduling \n [D] Exit ");
+			System.out.println(" [A] First Come First Serve (FCFS) \n [B] Shortest Job First (SJF) \n [C] Priority (Prio) \n [D] Exit ");
 			
-			System.out.println("Enter the choice of your number: ");
+			System.out.println("Enter the letter of your choice: ");
 			
 			String option2= input.next();
 			
@@ -189,7 +186,6 @@ public class Main {
 				//calling of function
 				FCFS(arrT.stream().mapToInt(i -> i).toArray(),burT.stream().mapToInt(i -> i).toArray());
 			}
-			
 		
 		}
 		
