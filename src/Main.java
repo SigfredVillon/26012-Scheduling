@@ -592,3 +592,21 @@ public class Main {
 	}
 
 }
+
+
+class Priority {
+    int n, at, bt, prioNum, startT, ct, tat, wt, rb;
+    boolean isCompleted;
+    Priority(int n, int at, int bt, int prioNum, int startT, int ct, int tat, int wt, int rb, boolean isCompleted) {
+        this.n = n;
+        this.at = at;
+        this.bt = bt;
+        this.prioNum = prioNum;
+        this.startT = startT;
+        this.ct = ct;
+        this.tat = tat;
+        this.wt = wt;
+        this.rb = rb;
+        this.isCompleted = isCompleted;
+    }
+}
