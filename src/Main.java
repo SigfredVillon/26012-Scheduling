@@ -403,20 +403,25 @@ public class Main {
 		tot++;
 		}
 		}
-		System.out.println("\npid  arrival brust  complete turn waiting");
-		for(int i=0;i<n;i++)
-		{
-		avgwt+= wt[i];
-		avgta+= ta[i];
-		System.out.println(pid[i]+"\t"+at[i]+"\t"+bt[i]+"\t"+ct[i]+"\t"+ta[i]+"\t"+wt[i]);
-		}
-		System.out.println ("\nAverage turnaround time is "+ (float)(avgta/n));
-		System.out.println ("Average waiting time is "+ (float)(avgwt/n));
+		
+        System.out.println("Waiting Time:     Turnaround time:");
+        
+        for(int i=0; i < n; i++)
+        {
+        	avgwt+= wt[i];
+    		avgta+= ta[i];
+        	System.out.println("P"+pid[i]+": "+ wt[i] +"               "+"P"+pid[i]+": "+ta[i]);
+        	
+        }
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        System.out.println("Ave "+df.format(avgwt/n)+ "            Ave: "+df.format(avgta/n));
 	}
 
 	
 	static void PRIO(int[] at,int[] bt) {	
 		
+
 	}
 	
 	
@@ -438,7 +443,6 @@ public class Main {
 		{
 			
 			System.out.println("Preemptive Scheduling");
-	System.out.println("Preemptive Scheduling");
 			
 			System.out.println("Input no. of processes [2-9]: ");
 			
@@ -476,36 +480,38 @@ public class Main {
 				tempb[i] = bt[i];
 				
 			}
-			System.out.println(" [A] Shortest Remaining Time First (SRTF) \n [B] Round Robin (RR) \n [C] Preemptive Priority (P-Prio) \n [D] Multi-level Queue Scheduling (MQS) ");
+			boolean rep=false;
+			while (rep==false) {
+			System.out.println(" [A] Shortest Remaining Time First (SRTF) \n [B] Round Robin (RR) \n [C] Preemptive Priority (P-Prio) \n [D] Multi-level Queue Scheduling (MQS) \n [E] Exit ");
 			
 			System.out.println("Enter choice: ");
 			
 			String option2= input.next();
 			switch(option2) {
-				case "A": 
+				case "A" : 
+				case "a":
 					//[A] Shortest Remaining Time First
 					SRTF(numP, at, f, bt, k);
 				  	break;
 				case "B":
+				case "b":
 					//[B] Round Robin (RR)
 					RR(numP, at,bt, tempb);
 					break;
 				case "C":
+				case "c":
 					//[C] Preemptive Priority (P-Prio)
 					PP(numP, at, bt);
 					break;
-				case "D":
-					//[D] Multi-level Queue Scheduling (MQS)
-					//code
-					break;
 				case "E":
-					//EXIT
+				case "e":
+					rep=true;
 					break;
 				default:			
-				  // y/n
+					System.out.println("Option is not available choose again");
 			  }
 			
-			
+			}
 		}
 		
 		else if (option1==2) 
@@ -544,7 +550,9 @@ public class Main {
 				burT.add(inp);
 				
 			}
-			
+			boolean rep=false;
+			while (rep==false) {
+				
 			System.out.println(" [A] First Come First Serve (FCFS) \n [B] Shortest Job First (SJF) \n [C] Priority (Prio) \n [D] Exit ");
 			
 			System.out.println("Enter the letter of your choice: ");
@@ -561,7 +569,7 @@ public class Main {
 			
 			else if (option2.equals("B") ||option2.equals("b") ) {
 				
-				System.out.println("[A] First Come First Serve");
+				System.out.println("[B] Shortest Job First (SJF) ");
 				
 				//calling of function
 				SJF(arrT.stream().mapToInt(i -> i).toArray(),burT.stream().mapToInt(i -> i).toArray());
@@ -573,6 +581,19 @@ public class Main {
 				
 				//calling of function
 				PRIO(arrT.stream().mapToInt(i -> i).toArray(),burT.stream().mapToInt(i -> i).toArray());
+			}
+			
+			else if (option2.equals("D") ||option2.equals("d") ) {
+				rep=true;
+				System.out.println("End");
+				
+			}
+			
+			else {
+				System.out.println("Wrong input try again");
+				
+			}
+			
 			}
 			
 		
