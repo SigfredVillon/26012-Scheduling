@@ -2,7 +2,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner; 
+import java.util.Scanner;
+
+
+
 public class Main {
 	
 	//Preemptive Scheduling FUNCTIONS
@@ -360,10 +363,10 @@ public class Main {
 	static void SJF(int[] at,int[] bt) {
 		int n = at.length;
 		int pid[] = new int[n];
-		int ct[] = new int[n]; // ct means complete time
-		int ta[] = new int[n]; // ta means turn around time
-		int wt[] = new int[n];  //wt means waiting time
-		int f[] = new int[n];  // f means it is flag it checks process is completed or not
+		int ct[] = new int[n]; 
+		int ta[] = new int[n];
+		int wt[] = new int[n];  
+		int f[] = new int[n];  
 		int st=0, tot=0;
 		float avgwt=0, avgta=0;
 		 
@@ -376,21 +379,18 @@ public class Main {
 		while(true)
 		{
 		int c=n, min=999;
-		if (tot == n) // total no of process = completed process loop will be terminated
+		if (tot == n)
 		break;
 		for (int i=0; i<n; i++)
 		{
-		/*
-		* If i'th process arrival time <= system time and its flag=0 and burst<min
-		* That process will be executed first
-		*/
+
+			
 		if ((at[i] <= st) && (f[i] == 0) && (bt[i]<min))
 		{
 		min=bt[i];
 		c=i;
 		}
 		}
-		/* If c==n means c value can not updated because no process arrival time< system time so we increase the system time */
 		if (c==n)
 		st++;
 		else
@@ -419,15 +419,329 @@ public class Main {
 	}
 
 	
-	static void PRIO(int[] at,int[] bt) {	
+	static void PRIO(int[] arrT,int[] burT) {	
+		Scanner input = new Scanner(System.in);  
+		
+		System.out.println(" Enter Priority ");
+		int[] prioA= new int[arrT.length];
+		
+		int[] jobs= new int[arrT.length];
+		
+		for (int i =0;i<arrT.length;i++) 
+		{
+			jobs[i]=i+1;
+			System.out.println(" Enter priority for job" + jobs[i] +": ");
+			prioA[i]=input.nextInt();
+		
+		}
+	
+
+		int temp=0,temp2=0,temp3=0,temp4=0;
+		// get lowest arrival time in array 
+		 for(int i=0; i < arrT.length; i++)
+	        {
+	        	
+	        
+	            for(int j=1; j < (arrT.length-i); j++)
+	            {  
+	                     if(arrT[j-1]> arrT[j]){  
+	                            //swap elements 
+	                    	 
+	                    	    //Arrival times
+	                            temp = arrT[j-1];  
+	                            arrT[j-1] = arrT[j];  
+	                            arrT[j] = temp;
+	                            
+	                            //burst times
+	                            temp2 = burT[j-1];  
+	                            burT[j-1] = burT[j];  
+	                            burT[j] = temp2;
+	                            
+	                            //job 
+	                            temp3 = jobs[j-1];  
+	                            jobs[j-1] = jobs[j];  
+	                            jobs[j] = temp3;
+	                            
+	                            //prio
+	                            temp4 = prioA[j-1];  
+	                            prioA[j-1] = prioA[j];  
+	                            prioA[j] = temp4;
+	                                  
+	                    }  
+	            }
+	                     
+	       }
+		 //new arranged array
+		 int[] narrT= new int[arrT.length];
+		 int[] nburT= new int[arrT.length];
+		 int[] njobs= new int[arrT.length];
+		 int[] nprioA= new int[arrT.length];
+		 
+		 //lowest arrival time
+		 narrT[0]=arrT[0];
+		 nburT[0]=burT[0];
+		 njobs[0]=jobs[0];
+		 nprioA[0]=prioA[0]; 
+		 
+		 int[] coparrT= new int[arrT.length-1];
+		 int[] copburT= new int[arrT.length-1];
+		 int[] copjobs= new int[arrT.length-1];
+		 int[] copprioA= new int[arrT.length-1];
+		 
+		 
+		 for(int i=0, k=0;i<arrT.length;i++){
+	            if(i!=0){
+	            	coparrT[k]=arrT[i];
+	            	copburT[k]=burT[i];
+	            	copjobs[k]=jobs[i];
+	            	copprioA[k]=prioA[i];
+	                k++;
+	            }
+		 }
+		 temp=0;
+	     temp2=0;
+	     temp3=0;
+	     temp4=0;
+		 for(int i=0; i < coparrT.length; i++)
+	        {
+	        	
+	        
+	            for(int j=1; j < (coparrT.length-i); j++)
+	            {  
+	                     if(copprioA[j-1]> copprioA[j]){  
+	                            //swap elements 
+	                    	 
+	                    	    //Arrival times
+	                            temp = coparrT[j-1];  
+	                            coparrT[j-1] = coparrT[j];  
+	                            arrT[j] = temp;
+	                            
+	                            //burst times
+	                            temp2 = copburT[j-1];  
+	                            copburT[j-1] = copburT[j];  
+	                            copburT[j] = temp2;
+	                            
+	                            //job 
+	                            temp3 = copjobs[j-1];  
+	                            copjobs[j-1] = copjobs[j];  
+	                            copjobs[j] = temp3;
+	                            
+	                            //prio
+	                            temp4 = copprioA[j-1];  
+	                            copprioA[j-1] = copprioA[j];  
+	                            copprioA[j] = temp4;
+	                                  
+	                    }  
+	            }
+	                     
+	       }
+		 
+			for (int i =1,j=0;i<arrT.length;i++,j++) 
+			{
+				narrT[i]=coparrT[j];
+				
+				nburT[i]= copburT[j];
+				
+				njobs[i]= copjobs[j];
+				
+				nprioA[i]= copprioA[j];
+			}
+			
+			 int[] taT= new int[arrT.length];
+			 int[] weT= new int[arrT.length];
+			 
+			 double sumTat=0;
+			 double taTadd=0;
+			 //taT
+				for (int i =0;i<arrT.length;i++) 
+				{
+					if (i==0) 
+					{
+				    taT[i]=nburT[i]-narrT[i];
+					sumTat=	nburT[i];
+					taTadd=taT[i];
+					}
+					
+					else {
+					sumTat=sumTat+nburT[i];
+					taT[i]=	(int) (sumTat-narrT[i]);
+					taTadd=taTadd+((int) (sumTat-narrT[i]))	;
+					}
+					
+					
+				}
+			
+				// weighting time
+				double weTadd=0;
+				for (int i =0;i<arrT.length;i++) 
+				{
+					weT[i]=taT[i]-nburT[i];
+					weTadd=weTadd+(taT[i]-nburT[i]);
+				}
+				for (int i =0;i<arrT.length;i++) 
+				{
+					
+					System.out.println(njobs[i] +" "+ narrT[i] +" " + nburT[i] +" " +nprioA[i] );
+				
+				}
+				for (int i =0;i<arrT.length;i++) 
+				{
+					
+					System.out.println(taT[i] +" "+ weT[i] +" " );
+				
+				}
+				
+				
+				 System.out.println("Waiting Time:     Turnaround time:");
+			        
+			        for(int i=0; i < arrT.length; i++)
+			        {
+	
+			        	System.out.println("P"+(i+1)+": "+ weT[i] +"               "+"P"+(i+1)+": "+taT[i]);
+			        	
+			        }
+			        DecimalFormat df = new DecimalFormat();
+			        df.setMaximumFractionDigits(2);
+			        System.out.println("Ave "+df.format(weTadd/arrT.length)+ "            Ave: "+df.format(taTadd/arrT.length));
+				
+
+
 		
 
-	}
-	
+		
+		
+			}
 	
 	
 	//Disk Scheduling FUNCTIONS
 	    //put functions in here
+	
+	
+	static void DISKFCFS(int currentPosition,int trackSize,int seekRate,int numberOfRequests,int[] requests) {
+
+        //calculate total head movement
+        int totalHeadMovement = 0;
+        int currentRequest = currentPosition;
+        for (int i=0; i<numberOfRequests; i++) {
+            totalHeadMovement += Math.abs(requests[i] - currentRequest);
+            currentRequest = requests[i];
+        }
+
+        //calculate seek time
+        int seekTime = totalHeadMovement * seekRate;
+
+        System.out.println("Total head movement: "+totalHeadMovement);
+        System.out.println("Seek time: "+seekTime);
+		
+		
+	}
+	
+	static void SSTF(int currentPosition,int trackSize,int seekRate,int numberOfRequests,int[] requests) {
+		
+		 int totalHeadMovement = 0;
+		 int currentRequest = currentPosition;
+	        while (numberOfRequests > 0) {
+	            int minDistance = Integer.MAX_VALUE;
+	            int minIndex = 0;
+	            for (int i=0; i<numberOfRequests; i++) {
+	                int distance = Math.abs(requests[i] - currentRequest);
+	                if (distance < minDistance) {
+	                    minDistance = distance;
+	                    minIndex = i;
+	                }
+	            }
+	            totalHeadMovement += minDistance;
+	            currentRequest = requests[minIndex];
+	            requests[minIndex] = requests[numberOfRequests-1];
+	            numberOfRequests--;
+	        }
+	        
+	        //calculate seek time
+	        int seekTime = totalHeadMovement * seekRate;
+	        
+	        System.out.println("Total head movement: "+totalHeadMovement);
+	        System.out.println("Seek time: "+seekTime);
+	}	
+
+	static void SCAN(int currentPosition,int trackSize,int seekRate,int numberOfRequests,int[] requests) {
+		
+		  int totalHeadMovement = 0;
+	        int currentRequest = currentPosition;
+	        int direction = 1;
+	        while (numberOfRequests > 0) {
+	            int minDistance = Integer.MAX_VALUE;
+	            int minIndex = 0;
+	            for (int i=0; i<numberOfRequests; i++) {
+	                int distance = 0;
+	                if (direction == 1) {
+	                    distance = requests[i] - currentRequest;
+	                } else {
+	                    distance = currentRequest - requests[i];
+	                }
+	                if (distance > 0 && distance < minDistance) {
+	                    minDistance = distance;
+	                    minIndex = i;
+	                }
+	            }
+	            totalHeadMovement += minDistance;
+	            currentRequest = requests[minIndex];
+	            requests[minIndex] = requests[numberOfRequests-1];
+	            numberOfRequests--;
+	            if (currentRequest == trackSize) {
+	                direction = 0;
+	            } else if (currentRequest == 0) {
+	                direction = 1;
+	            }
+	        }
+	        
+	        //calculate seek time
+	        int seekTime = totalHeadMovement * seekRate;
+	        
+	        System.out.println("Total head movement: "+totalHeadMovement);
+	        System.out.println("Seek time: "+seekTime);
+	}
+	
+	static void CSCAN(int currentPosition,int trackSize,int seekRate,int numberOfRequests,int[] requests) {
+
+        //calculate total head movement
+        int totalHeadMovement = 0;
+        int currentRequest = currentPosition;
+        int direction = 1;
+        while (numberOfRequests > 0) {
+            int minDistance = Integer.MAX_VALUE;
+            int minIndex = 0;
+            for (int i=0; i<numberOfRequests; i++) {
+                int distance = 0;
+                if (direction == 1) {
+                    distance = requests[i] - currentRequest;
+                } else {
+                    distance = trackSize - currentRequest + requests[i];
+                }
+                if (distance > 0 && distance < minDistance) {
+                    minDistance = distance;
+                    minIndex = i;
+                }
+            }
+            totalHeadMovement += minDistance;
+            currentRequest = requests[minIndex];
+            requests[minIndex] = requests[numberOfRequests-1];
+            numberOfRequests--;
+            if (currentRequest == trackSize) {
+                direction = 0;
+            } else if (currentRequest == 0) {
+                direction = 1;
+            }
+        }
+        
+        //calculate seek time
+        int seekTime = totalHeadMovement * seekRate;
+        
+        System.out.println("Total head movement: "+totalHeadMovement);
+        System.out.println("Seek time: "+seekTime);
+		
+	}
+	
+	
 	public static void main(String[] args) {
 		
 		Scanner input = new Scanner(System.in);  
@@ -604,7 +918,74 @@ public class Main {
 		{
 			
 			System.out.println("Disk Scheduling");
+			System.out.println("Disk Scheduling");
+			Scanner sc = new Scanner(System.in);
+	        System.out.println("Enter current position: ");
+	        int currentPosition = sc.nextInt(); 
+	        System.out.println("Enter track size: ");
+	        int trackSize = sc.nextInt(); 
+	        System.out.println("Enter seek rate: ");
+	        int seekRate = sc.nextInt(); 
+	        System.out.println("Enter number of requests: ");
+	        int numberOfRequests = sc.nextInt(); 
+	        System.out.println("Enter requests: ");
+	        
+	        int requests[] = new int[numberOfRequests]; 
+	        for (int i=0; i<numberOfRequests; i++) {
+	            requests[i] = sc.nextInt();
+	        }
+	        boolean rep=false;
+			while (rep==false) {
+				
+			System.out.println(" [A] First Come First Serve (FCFS) \n [B] Shortest Seek Time First (SSTF) \n [C] Scan \n [D] Circular Scan (CSCAN) \n [E] Exit ");
 			
+			System.out.println("Enter the letter of your choice: ");
+			String option2= input.next();
+              if (option2.equals("A") ||option2.equals("a") ) {
+				
+				System.out.println("[A] First Come First Serve");
+				
+				//calling of function
+				DISKFCFS(currentPosition,trackSize, seekRate, numberOfRequests,requests);
+			}
+			
+			else if (option2.equals("B") ||option2.equals("b") ) {
+				
+				System.out.println("[B] Shortest Seek Time First (SSTF)");
+				SSTF(currentPosition,trackSize, seekRate, numberOfRequests,requests);
+				//calling of function
+		
+			}
+			
+			else if (option2.equals("C") ||option2.equals("c") ) {
+				
+				System.out.println("[C] Scan");
+				SCAN(currentPosition,trackSize, seekRate, numberOfRequests,requests);
+				//calling of function
+
+			}
+              
+			else if (option2.equals("D") ||option2.equals("d") ) {
+				
+				System.out.println("[D] Circular Scan (CSCAN)");
+				CSCAN(currentPosition,trackSize, seekRate, numberOfRequests,requests);
+				//calling of function
+
+			}
+			
+			else if (option2.equals("E") ||option2.equals("e") ) {
+				rep=true;
+				System.out.println("End");
+				
+			}
+			
+			else {
+				System.out.println("Wrong input try again");
+				
+			}
+			
+			
+		}
 			
 			
 		}
@@ -631,3 +1012,6 @@ class Priority {
         this.isCompleted = isCompleted;
     }
 }
+
+
+
